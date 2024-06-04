@@ -92,8 +92,7 @@ INSERT INTO `rank` (`id`, `nazev_ranku`, `pocet_bitev_pro_rank`, `url_ranku`) VA
 
 CREATE TABLE `team` (
   `id` int(11) NOT NULL,
-  `nazev` varchar(64) NOT NULL,
-  `battles_won` smallint(6) DEFAULT NULL
+  `nazev` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
