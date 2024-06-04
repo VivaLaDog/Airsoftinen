@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 04, 2024 at 01:06 PM
+-- Generation Time: Jun 04, 2024 at 01:32 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -114,6 +114,7 @@ INSERT INTO `team` (`id`, `nazev`, `url_teamu`) VALUES
 CREATE TABLE `vojak` (
   `fk_team` int(11) DEFAULT NULL,
   `id` int(11) NOT NULL,
+  `username` varchar(24) NOT NULL,
   `jmeno` varchar(64) NOT NULL,
   `prijmeni` varchar(64) NOT NULL,
   `email` varchar(128) DEFAULT NULL,
@@ -129,9 +130,9 @@ CREATE TABLE `vojak` (
 -- Dumping data for table `vojak`
 --
 
-INSERT INTO `vojak` (`fk_team`, `id`, `jmeno`, `prijmeni`, `email`, `heslo`, `profilovka`, `telefon`, `fk_rank`, `fk_zbran`, `fk_hrane_bitvy`) VALUES
-(1, 1, 'Honza', 'Jiroušek', 'jirousek@gmail.com', 'admin', NULL, 123456789, 1, 4, 1),
-(2, 2, 'Adéla', 'Tůmová', 'ada@seznam.cz', 'admin2', NULL, 987654321, 1, 4, 1);
+INSERT INTO `vojak` (`fk_team`, `id`, `username`, `jmeno`, `prijmeni`, `email`, `heslo`, `profilovka`, `telefon`, `fk_rank`, `fk_zbran`, `fk_hrane_bitvy`) VALUES
+(1, 1, 'lagan2007', 'Honza', 'Jiroušek', 'jirousek@gmail.com', 'admin', NULL, 123456789, 1, 4, 1),
+(2, 2, '1Adas', 'Adéla', 'Tůmová', 'ada@seznam.cz', 'admin2', NULL, 987654321, 1, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -234,7 +235,7 @@ ALTER TABLE `team`
 -- AUTO_INCREMENT for table `vojak`
 --
 ALTER TABLE `vojak`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `zbran`

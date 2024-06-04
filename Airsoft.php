@@ -8,6 +8,17 @@
 </head>
 <body>
     <?php
+$conV = new mysqli("localhost","root","","airsoft") or die;//vojak
+$sqlV = "SELECT * FROM vojak;"; //Z nejakyho duvodu kdyz tu dam "WHERE id = 1" tak se posere Email a telefon. Nemam tuseni proc, ale necham to na dnesek byt.
+$resultV = $conV->query($sqlV);
+
+$conR = new mysqli("localhost","root","","airsoft") or die;//rank
+$sqlR = "SELECT * FROM rank;";
+$resultR = $conR->query($sqlR);
+
+$conT = new mysqli("localhost","root","","airsoft") or die;//team
+$sqlT = "SELECT * FROM team;";
+$resultT = $conT->query($sqlT);
 
         function NajdiBitvu($bitva){
             echo "<div class=\"bitva\">
@@ -53,21 +64,25 @@
             <div class="column-4">
               <div class="div-13">
                 <div class="div-14">
-                  <div class="div-15">Username</div> // get name
-                  <input class="div-16"></input>
+                  <div class="div-15">Username</div>
+                  <input class="div-16"><?php
+                      $zaznamV1 = $resultV->fetch_object();
+                      echo "$zaznamV1->username"; 
+                    ?></input>
                   <button class="userNameSave">Save</button>
-                  <div class="div-17">Mail/phone</div> // get user mail
-                  <div class="div-18"></div>
+                  <div class="div-17">Mail/phone</div>
+                  <div class="div-18">
+                  <?php
+                      $zaznamV2 = $resultV->fetch_object();
+                      echo "<span>$zaznamV2->email $zaznamV2->telefon</span>";
+                    ?>
+                  </div>
                   <div class="div-19">Rank</div>
                 </div>
                 <div class="div-20">
                   <?php
-                        $con = new mysqli("localhost","root","","airsoft") or die;
-                        $sql = "SELECT * FROM rank;";
-                        $result = $con->query($sql);
-                        
-                        $zaznam = $result->fetch_object();
-                        NajdiRank($zaznam); 
+                      $zaznamR = $resultR->fetch_object();
+                      NajdiRank($zaznamR); 
                     ?>
                 </div>
               </div>
@@ -77,15 +92,17 @@
                 <div class="div-22">Název týmu</div>
                 <div class="div-23">
                   <?php
-                    $con = new mysqli("localhost","root","","airsoft") or die;
-                    $sql = "SELECT * FROM team;";
-                    $result = $con->query($sql);
-                    $zaznam = $result->fetch_object();
-                    NajdiTeam($zaznam);
+                    $zaznamT2 = $resultT->fetch_object();
+                    NajdiTeam($zaznamT2);
                   ?>
                 </div>
                 <div class="div-24">Týmové foto/logo</div>
-                <div class="div-25"></div>
+                <div class="div-25">
+                  <?php
+                    $zaznamT2 = $resultT->fetch_object();
+                    echo "<img src=\"$zaznamT2->url_teamu\" width=\"100%\" height=\"100%\">";
+                  ?>
+                </div>
               </div>
             </div>
           </div>
