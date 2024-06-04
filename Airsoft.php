@@ -7,6 +7,24 @@
 	<title></title>
 </head>
 <body>
+    <?php
+
+        function NajdiBitvu($bitva){
+            echo "<div class=\"bitva\">
+            <h3>$bitva->nazev (lokace: $bitva->lokace)</h3>
+            <div>Popis okoli: $bitva->description<br>Vyhra tymu: $bitva->fk_winner</div>
+            </div>";
+        }
+        function NajdiTeam($zaznam){
+            echo "<span style=\"font-weight: bold\">$zaznam->nazev [Tým $zaznam->id]</span>";
+        }
+        function NajdiRank($zaznam){
+            echo "<div class=\"rank\">
+            <h2>$zaznam->nazev_ranku</h2>
+            <div><img src='$zaznam->url_ranku' width=\"100%\"></div>
+            </div>";
+        }
+    ?>
 <div class="div">
   <div class="div-2">
     <div class="column">
@@ -35,34 +53,22 @@
             <div class="column-4">
               <div class="div-13">
                 <div class="div-14">
-                  <div class="div-15">Username</div>
+                  <div class="div-15">Username</div> // get name
                   <input class="div-16"></input>
                   <button class="userNameSave">Save</button>
-                  <div class="div-17">Mail/phone</div>
+                  <div class="div-17">Mail/phone</div> // get user mail
                   <div class="div-18"></div>
                   <div class="div-19">Rank</div>
                 </div>
                 <div class="div-20">
                   <?php
-            $con = new mysqli("localhost","root","","airsoft") or die;
-            $sql = "SELECT * FROM rank;";
-            $result = $con->query($sql);
-            
-            while($zaznam = $result->fetch_object()){
-                if(!empty($zaznam)){
-                    echo "<br>";    
-                    NajdiRank($zaznam);
-                }
-            }
-        
-
-        function NajdiRank($zaznam){
-            echo "<div class=\"rank\">
-            <h2>$zaznam->nazev_ranku (potrebne bitvy: $zaznam->pocet_bitev_pro_rank)</h2>
-            <div><img src='$zaznam->url_ranku'></div>
-            </div>";
-        }   
-    ?>
+                        $con = new mysqli("localhost","root","","airsoft") or die;
+                        $sql = "SELECT * FROM rank;";
+                        $result = $con->query($sql);
+                        
+                        $zaznam = $result->fetch_object();
+                        NajdiRank($zaznam); 
+                    ?>
                 </div>
               </div>
             </div>
@@ -74,16 +80,8 @@
                     $con = new mysqli("localhost","root","","airsoft") or die;
                     $sql = "SELECT * FROM team;";
                     $result = $con->query($sql);
-                    while($zaznam = $result->fetch_object()){
-                      //echo "<br>";    
-                      NajdiTeam($zaznam);
-                    }
-          
-                    function NajdiTeam($zaznam){
-                      echo "<div class=\"teams\">
-                      <h2>$zaznam->nazev</h2>
-                      </div>";
-                    }
+                    $zaznam = $result->fetch_object();
+                    NajdiTeam($zaznam);
                   ?>
                 </div>
                 <div class="div-24">Týmové foto/logo</div>
@@ -98,26 +96,18 @@
       <div class="div-26">
         <div class="div-27">Historie bitev</div>
         <div class="div-28">
-          <?php
-        $con = new mysqli("localhost","root","","airsoft") or die;
-        $sql = "SELECT * FROM bitvy;";
-        $result = $con->query($sql);
-        //print_r($result);
-
-        while($zaznam = $result->fetch_object()){
-            echo "<br>";
-            NajdiBitvu($zaznam);
-        }
-
-        function NajdiBitvu($zaznam){
-            echo "<div-2 class=\"bitva\">
-            <h2>$zaznam->nazev (lokace: $zaznam->lokace)</h2>
-            <div>Popis okoli: $zaznam->description</div>
-            <p>Vyhra tymu: $zaznam->fk_winner</p>
-            </div>";
-        }
-    ?>
-          <br>
+        <?php
+            $con = new mysqli("localhost","root","","airsoft") or die;
+            $sql = "SELECT * FROM vojak WHERE id = 1;"; //request id prihlaseneho uzivatele
+            $result = $con->query($sql);
+            $sql2 = "SELECT * FROM bitvy;";
+            $result2 = $con->query($sql2);
+            while($bitva = $result2->fetch_object()){
+                NajdiBitvu($bitva);
+                echo "<br>";
+            }
+        ?>
+        <br>
         </div>
       </div>
     </div>
@@ -424,6 +414,5 @@
     }
   }
 </style>
-
 </body>
 </html>
