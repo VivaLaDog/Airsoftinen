@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2024 at 12:57 PM
+-- Generation Time: Jun 04, 2024 at 01:06 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -40,7 +40,8 @@ CREATE TABLE `bitvy` (
 --
 
 INSERT INTO `bitvy` (`id`, `nazev`, `description`, `lokace`, `fk_winner`) VALUES
-(1, 'Bitva u Labe', 'Skalné a bažinaté prostředí, silný déšť.', 'Ústí nad Labem', 1);
+(1, 'Bitva u Labe', 'Skalné a bažinaté prostředí, silný déšť.', 'Ústí nad Labem', 1),
+(2, 'Bitva v Teplicích', 'Byl tam Kryštof... To bylo asitak vše', 'Teplice, Ústí nad Labem', 2);
 
 -- --------------------------------------------------------
 
@@ -92,14 +93,15 @@ INSERT INTO `rank` (`id`, `nazev_ranku`, `pocet_bitev_pro_rank`, `url_ranku`) VA
 
 CREATE TABLE `team` (
   `id` int(11) NOT NULL,
-  `nazev` varchar(64) NOT NULL
+  `nazev` varchar(64) NOT NULL,
+  `url_teamu` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `team`
 --
 
-INSERT INTO `team` (`id`, `nazev`, `battles_won`) VALUES
+INSERT INTO `team` (`id`, `nazev`, `url_teamu`) VALUES
 (1, 'Červení Draci', NULL),
 (2, 'Modré Krevety', NULL);
 
@@ -172,8 +174,8 @@ INSERT INTO `zbran` (`id`, `nazev_zbrane`, `typ_zbrane`, `body`) VALUES
 --
 ALTER TABLE `bitvy`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nazev` (`nazev`),
-  ADD KEY `fk_winner` (`fk_winner`);
+  ADD KEY `fk_winner` (`fk_winner`),
+  ADD KEY `nazev` (`nazev`) USING BTREE;
 
 --
 -- Indexes for table `rank`
@@ -214,7 +216,7 @@ ALTER TABLE `zbran`
 -- AUTO_INCREMENT for table `bitvy`
 --
 ALTER TABLE `bitvy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `rank`
