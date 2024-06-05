@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title></title>
+  <title></title>
 </head>
 <body>
     <?php
@@ -48,12 +48,12 @@ $resultT = $conT->query($sqlT);
                 <div class="div-8"></div>
                 <div class="div-9">Barva týmu</div>
                 <div class="div-10">
-                	<input type="color" class="div-10-color" list="presetColors">
-                	  <datalist id="presetColors">
-    					 <option>#ff0000</option>
-   						 <option>#0000ff</option>
-   						 <option>#ffffff</option>
-  					  </datalist>
+                  <input type="color" class="div-10-color" list="presetColors">
+                    <datalist id="presetColors">
+               <option>#ff0000</option>
+               <option>#0000ff</option>
+               <option>#ffffff</option>
+              </datalist>
                 </div>
               </div>
             </div>
@@ -65,11 +65,11 @@ $resultT = $conT->query($sqlT);
               <div class="div-13">
                 <div class="div-14">
                   <div class="div-15">Username</div>
-                  <input class="div-16"><?php
+                  <div class="div-16"><?php
                       $zaznamV1 = $resultV->fetch_object();
                       echo "$zaznamV1->username"; 
-                    ?></input>
-                  <button class="userNameSave">Save</button>
+                    ?></div>
+                  
                   <div class="div-17">Mail/phone</div>
                   <div class="div-18">
                   <?php
