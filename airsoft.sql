@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 16, 2024 at 12:57 PM
+-- Generation Time: Jun 04, 2024 at 01:32 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -40,7 +40,8 @@ CREATE TABLE `bitvy` (
 --
 
 INSERT INTO `bitvy` (`id`, `nazev`, `description`, `lokace`, `fk_winner`) VALUES
-(1, 'Bitva u Labe', 'Skalné a bažinaté prostředí, silný déšť.', 'Ústí nad Labem', 1);
+(1, 'Bitva u Labe', 'Skalné a bažinaté prostředí, silný déšť.', 'Ústí nad Labem', 1),
+(2, 'Bitva v Teplicích', 'Byl tam Kryštof... To bylo asitak vše', 'Teplice, Ústí nad Labem', 2);
 
 -- --------------------------------------------------------
 
@@ -92,14 +93,15 @@ INSERT INTO `rank` (`id`, `nazev_ranku`, `pocet_bitev_pro_rank`, `url_ranku`) VA
 
 CREATE TABLE `team` (
   `id` int(11) NOT NULL,
-  `nazev` varchar(64) NOT NULL
+  `nazev` varchar(64) NOT NULL,
+  `url_teamu` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `team`
 --
 
-INSERT INTO `team` (`id`, `nazev`, `battles_won`) VALUES
+INSERT INTO `team` (`id`, `nazev`, `url_teamu`) VALUES
 (1, 'Červení Draci', NULL),
 (2, 'Modré Krevety', NULL);
 
@@ -112,6 +114,7 @@ INSERT INTO `team` (`id`, `nazev`, `battles_won`) VALUES
 CREATE TABLE `vojak` (
   `fk_team` int(11) DEFAULT NULL,
   `id` int(11) NOT NULL,
+  `username` varchar(24) NOT NULL,
   `jmeno` varchar(64) NOT NULL,
   `prijmeni` varchar(64) NOT NULL,
   `email` varchar(128) DEFAULT NULL,
@@ -127,9 +130,9 @@ CREATE TABLE `vojak` (
 -- Dumping data for table `vojak`
 --
 
-INSERT INTO `vojak` (`fk_team`, `id`, `jmeno`, `prijmeni`, `email`, `heslo`, `profilovka`, `telefon`, `fk_rank`, `fk_zbran`, `fk_hrane_bitvy`) VALUES
-(1, 1, 'Honza', 'Jiroušek', 'jirousek@gmail.com', 'admin', NULL, 123456789, 1, 4, 1),
-(2, 2, 'Adéla', 'Tůmová', 'ada@seznam.cz', 'admin2', NULL, 987654321, 1, 4, 1);
+INSERT INTO `vojak` (`fk_team`, `id`, `username`, `jmeno`, `prijmeni`, `email`, `heslo`, `profilovka`, `telefon`, `fk_rank`, `fk_zbran`, `fk_hrane_bitvy`) VALUES
+(1, 1, 'lagan2007', 'Honza', 'Jiroušek', 'jirousek@gmail.com', 'admin', NULL, 123456789, 1, 4, 1),
+(2, 2, '1Adas', 'Adéla', 'Tůmová', 'ada@seznam.cz', 'admin2', NULL, 987654321, 1, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -172,8 +175,8 @@ INSERT INTO `zbran` (`id`, `nazev_zbrane`, `typ_zbrane`, `body`) VALUES
 --
 ALTER TABLE `bitvy`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nazev` (`nazev`),
-  ADD KEY `fk_winner` (`fk_winner`);
+  ADD KEY `fk_winner` (`fk_winner`),
+  ADD KEY `nazev` (`nazev`) USING BTREE;
 
 --
 -- Indexes for table `rank`
@@ -214,7 +217,7 @@ ALTER TABLE `zbran`
 -- AUTO_INCREMENT for table `bitvy`
 --
 ALTER TABLE `bitvy`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `rank`
@@ -232,7 +235,7 @@ ALTER TABLE `team`
 -- AUTO_INCREMENT for table `vojak`
 --
 ALTER TABLE `vojak`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `zbran`

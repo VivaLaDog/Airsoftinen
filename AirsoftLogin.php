@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title></title>
 </head>
 <body>
-	<style>
+  <style>
   .profile {
     background-color: #fff;
     display: flex;
@@ -86,10 +86,10 @@
   <section class="profile-content">
     <img src="icon.jpg" class="profile-image">
     <p class="login">Log-in/Register</p>
-    <input class="profile-name"></input>
-    <input class="profile-title"></input>
-    <button class="profile-button-1">Log-in</button>
-    <button class="profile-button-2">Regiter</button>
+    <input class="profile-name" placeholder="Username"></input>
+    <input class="profile-title" placeholder="Password"></input>
+    <button class="profile-button-1" class="Login">Log-in</button>
+    <button class="profile-button-2" class="Register">Register</button>
   </section>
 </main>
 
