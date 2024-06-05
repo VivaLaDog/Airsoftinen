@@ -8,7 +8,7 @@
 <body>
   <style>
   .profile {
-    background-color: #fff;
+    
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -79,6 +79,7 @@
   .login{
     font-size: 40px;
     font-weight: bolder;
+    color: white;
   }
 </style>
 
@@ -86,12 +87,27 @@
   <section class="profile-content">
     <img src="icon.jpg" class="profile-image">
     <p class="login">Log-in/Register</p>
-    <input class="profile-name" placeholder="Username"></input>
-    <input class="profile-title" placeholder="Password"></input>
-    <button class="profile-button-1" class="Login">Log-in</button>
-    <button class="profile-button-2" class="Register">Register</button>
+    <form action="Authentcate.php" method="post">
+        <label for="username">
+          <i class="fas fa-user"></i>
+        </label>
+        <input type="text" name="username" placeholder="Username" id="username" required>
+        <label for="password">
+          <i class="fas fa-lock"></i>
+        </label>
+        <input type="password" name="password" placeholder="Password" id="password" required>
+        <input type="submit" value="Login">
+      </form>
   </section>
 </main>
 
+<style>
+body {
+  background-image: url('camo.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
+</style>
 </body>
 </html>

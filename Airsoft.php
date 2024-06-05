@@ -7,42 +7,43 @@
   <title></title>
 </head>
 <body>
+
     <?php
-$conV = new mysqli("localhost","root","","airsoft") or die;//vojak
-$sqlV = "SELECT * FROM vojak;"; //Z nejakyho duvodu kdyz tu dam "WHERE id = 1" tak se posere Email a telefon. Nemam tuseni proc, ale necham to na dnesek byt.
-$resultV = $conV->query($sqlV);
+// We need to use sessions, so you should always start sessions using the below code.
+session_start();
+// If the user is not logged in redirect to the login page...
+if (!isset($_SESSION['loggedin'])) {
+  header('Location: Airsoft.php');
+  exit;
+}
+$DATABASE_HOST = 'localhost';
+$DATABASE_USER = 'root';
+$DATABASE_PASS = '';
+$DATABASE_NAME = 'airsoft';
+$con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
+if (mysqli_connect_errno()) {
+  exit('Failed to connect to MySQL: ' . mysqli_connect_error());
+}
+// We don't have the password or email info stored in sessions, so instead, we can get the results from the database.
+$stmt = $con->prepare('SELECT heslo, email,fk_team, fk_rank FROM vojak WHERE id = ?');
+// In this case we can use the account ID to get the account info.
+$stmt->bind_param('i', $_SESSION['id']);
+$stmt->execute();
+$stmt->bind_result($password, $email,$fk_team, $fk_rank);
+$stmt->fetch();
+$stmt->close();
+?>
+    
 
-$conR = new mysqli("localhost","root","","airsoft") or die;//rank
-$sqlR = "SELECT * FROM rank;";
-$resultR = $conR->query($sqlR);
 
-$conT = new mysqli("localhost","root","","airsoft") or die;//team
-$sqlT = "SELECT * FROM team;";
-$resultT = $conT->query($sqlT);
 
-        function NajdiBitvu($bitva){
-            echo "<div class=\"bitva\">
-            <h3>$bitva->nazev (lokace: $bitva->lokace)</h3>
-            <div>Popis okoli: $bitva->description<br>Vyhra tymu: $bitva->fk_winner</div>
-            </div>";
-        }
-        function NajdiTeam($zaznam){
-            echo "<span style=\"font-weight: bold\">$zaznam->nazev [Tým $zaznam->id]</span>";
-        }
-        function NajdiRank($zaznam){
-            echo "<div class=\"rank\">
-            <h2>$zaznam->nazev_ranku</h2>
-            <div><img src='$zaznam->url_ranku' width=\"100%\"></div>
-            </div>";
-        }
-    ?>
-<div class="div">
+<div class="div" class="content">
   <div class="div-2">
     <div class="column">
       <div class="div-3">
         <div class="div-4">
           <div class="div-5">
-            <div class="column-2"><input class="div-6" type="file"></input></div>
+            <div class="column-2"><input type="file" id="image-input" accept="image/*"></div>
             <div class="column-3">
               <div class="div-7">
                 <div class="div-8"></div>
@@ -64,44 +65,47 @@ $resultT = $conT->query($sqlT);
             <div class="column-4">
               <div class="div-13">
                 <div class="div-14">
-                  <div class="div-15">Username</div>
-                  <div class="div-16"><?php
-                      $zaznamV1 = $resultV->fetch_object();
-                      echo "$zaznamV1->username"; 
-                    ?></div>
-                  
-                  <div class="div-17">Mail/phone</div>
-                  <div class="div-18">
-                  <?php
-                      $zaznamV2 = $resultV->fetch_object();
-                      echo "<span>$zaznamV2->email $zaznamV2->telefon</span>";
-                    ?>
+                  <div class="div-15"><h5 style="color:white; margin-top: 0px; margin: 0px;">Username</h5></div>
+                  <div class="div-16">
+                    <table>
+                      <tr>
+            <td><?=htmlspecialchars($_SESSION['name'], ENT_QUOTES)?></td>
+          </tr>
+                  </table>
                   </div>
-                  <div class="div-19">Rank</div>
+                  
+                  <div class="div-17"><h5 style="color:white; margin-top: 0px; margin: 0px;">Mail</h5></div>
+                  <div class="div-18">
+                  <table>
+                    <tr>
+                      <td><?=htmlspecialchars($email, ENT_QUOTES)?></td>
+                    </tr>
+                  </table>
+                  </div>
+                  <div class="div-19"><h5 style="color:white; margin-top: 0px; margin: 0px;">Rank</h5></div>
                 </div>
                 <div class="div-20">
-                  <?php
-                      $zaznamR = $resultR->fetch_object();
-                      NajdiRank($zaznamR); 
-                    ?>
+                <table>
+                    <tr>
+                      <td><?=htmlspecialchars($fk_rank, ENT_QUOTES)?></td>
+                    </tr>
+                  </table>
                 </div>
               </div>
             </div>
             <div class="column-5">
               <div class="div-21">
-                <div class="div-22">Název týmu</div>
+                <div class="div-22"><h5 style="color:white; margin-top: 0px; margin: 0px;">Tým</h5></div>
                 <div class="div-23">
-                  <?php
-                    $zaznamT2 = $resultT->fetch_object();
-                    NajdiTeam($zaznamT2);
-                  ?>
+                  <table>
+                    <tr>
+                      <td><?=htmlspecialchars($fk_team, ENT_QUOTES)?></td>
+                    </tr>
+                  </table>
                 </div>
-                <div class="div-24">Týmové foto/logo</div>
+                <div class="div-24"><h5 style="color:white; margin-top: 0px; margin: 0px;">Týmové Foto/Logo</h5></div>
                 <div class="div-25">
-                  <?php
-                    $zaznamT2 = $resultT->fetch_object();
-                    echo "<img src=\"$zaznamT2->url_teamu\" width=\"100%\" height=\"100%\">";
-                  ?>
+                 
                 </div>
               </div>
             </div>
@@ -111,19 +115,9 @@ $resultT = $conT->query($sqlT);
     </div>
     <div class="column-6">
       <div class="div-26">
-        <div class="div-27">Historie bitev</div>
+        <div class="div-27"><h3 style="color:white; margin-top: 0px; margin: 0px;">Historie Bitev</h3></div>
         <div class="div-28">
-        <?php
-            $con = new mysqli("localhost","root","","airsoft") or die;
-            $sql = "SELECT * FROM vojak WHERE id = 1;"; //request id prihlaseneho uzivatele
-            $result = $con->query($sql);
-            $sql2 = "SELECT * FROM bitvy;";
-            $result2 = $con->query($sql2);
-            while($bitva = $result2->fetch_object()){
-                NajdiBitvu($bitva);
-                echo "<br>";
-            }
-        ?>
+        
         <br>
         </div>
       </div>
@@ -132,7 +126,7 @@ $resultT = $conT->query($sqlT);
 </div>
 <style>
   .div {
-    background-color: #fff;
+   
     padding: 20px 0 0 42px;
   }
   @media (max-width: 991px) {
@@ -430,6 +424,14 @@ $resultT = $conT->query($sqlT);
       max-width: 100%;
     }
   }
+</style>
+<style>
+body {
+  background-image: url('camo.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+}
 </style>
 </body>
 </html>
